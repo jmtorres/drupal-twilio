@@ -456,7 +456,8 @@ function twilio_rules_action_info() {
         'label' => t('Text'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -478,7 +479,8 @@ function twilio_rules_action_info() {
         'label' => t('Text'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -509,7 +511,8 @@ function twilio_rules_action_info() {
         'label' => t('Number of Digits'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
     'provides' => array(
@@ -562,7 +565,8 @@ function twilio_rules_action_info() {
         'label' => t('Trim'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -606,7 +610,8 @@ function twilio_rules_action_info() {
         'label' => t('Trim'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
     'provides' => array(
@@ -652,7 +657,8 @@ function twilio_rules_action_info() {
         'label' => t('Message'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -689,7 +695,8 @@ function twilio_rules_action_info() {
         'label' => t('Queue Name'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -709,7 +716,8 @@ function twilio_rules_action_info() {
         'label' => t('Destination'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -725,7 +733,8 @@ function twilio_rules_action_info() {
         'options list' => 'twilio_reason_options_list',
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -740,7 +749,8 @@ function twilio_rules_action_info() {
         'label' => t('Length'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -751,7 +761,8 @@ function twilio_rules_action_info() {
     'named parameter' => TRUE,
     'parameter' => array(
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
@@ -784,7 +795,8 @@ function twilio_rules_action_info() {
         'options list' => 'twilio_method_options_list',
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response'
+        'type' => 'twilio_twiml_response',
+        'label' => t('Twiml Response'),
       ),
     ),
   );
