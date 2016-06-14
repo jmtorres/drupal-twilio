@@ -606,6 +606,7 @@ function twilio_rules_action_info() {
         'label' => t('Method'),
         'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
+        'default value' => NULL,
       ),
       'timeout' => array(
         'type' => 'integer',
