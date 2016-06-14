@@ -327,12 +327,12 @@ function twilio_rules_event_info() {
     'twilio_voice_incoming' => $defaults + array(
       'label' => t('Drupal receives a voice call'),
       'variables' => array(
-        'voice' => array(
-          'type' => 'voice',
+        'voice_request' => array(
+          'type' => 'twilio_voice_request',
           'label' => t('Twilio incoming Voice'),
         ),
         'twiml_response' => array(
-          'type' => 'twiml_response',
+          'type' => 'twilio_twiml_response',
           'label' => t('Twiml Response'),
         ),
       ),
