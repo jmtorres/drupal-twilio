@@ -600,6 +600,7 @@ function twilio_rules_action_info() {
       'action' => array(
         'type' => 'uri',
         'label' => t('Action'),
+        'optional' => TRUE,
       ),
       'method' => array(
         'type' => 'text',
