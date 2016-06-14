@@ -330,6 +330,10 @@ function twilio_rules_event_info() {
           'type' => 'voice',
           'label' => t('Twilio incoming Voice'),
         ),
+        'twiml_response' => array(
+          'type' => 'twiml_response',
+          'label' => t('Twiml Response'),
+        ),
       ),
     ),
   );
