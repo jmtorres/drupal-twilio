@@ -351,8 +351,19 @@ function twilio_receive_voice() {
     if (!empty($_REQUEST['To'])) {
       $options['receiver'] = check_plain($_REQUEST['To']);
     }
+    $voice = array(
+      'call_sid' => $_REQUEST['CallSid'],
+      'account_sid' => $_REQUEST['AccountSid'],
+      'from' => $_REQUEST['From'],
+      'to' => $_REQUEST['To'],
+      'call_status' => $_REQUEST['CallStatus'],
+      'api_version' => $_REQUEST['ApiVersion'],
+      'direction' => $_REQUEST['Direction'],
+      'forwarded_from' => $_REQUEST['ForwardedFrom'],
+      'caller_name' => $_REQUEST['CallerName'],
+    );
     watchdog('Twilio', 'A voice call from @number was received.', array('@number' => $number));
-    twilio_voice_incoming($number, $number_twilio, $options);
+    twilio_voice_incoming($voice, $options);
   }
 }
 
@@ -362,15 +373,18 @@ function twilio_receive_voice() {
  * @param string $number
  *   The sender's mobile number.
  */
-function twilio_voice_incoming($number, $number_twilio, $options = array()) {
-  $voice = array(
-    'number' => $number,
-    'number_twilio' => $number_twilio,
-  );
-  // Invoke a hook for the incoming message so other modules can do things.
-  module_invoke_all('twilio_voice_incoming', $voice, $options);
-  if (module_exists('rules')) {
-    rules_invoke_event('twilio_voice_incoming', $voice);
+function twilio_voice_incoming($voice, $options = array()) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    module_invoke_all('twilio_voice_incoming', $voice, $options);
+    if (module_exists('rules')) {
+      rules_invoke_event('twilio_voice_incoming', array(
+        'voice' => $voice,
+        'twiml_response' => &$response
+      ));
+    }
+    return $response;
   }
 }
 
