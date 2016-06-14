@@ -520,7 +520,7 @@ function twilio_rules_action_info() {
     ),
   );
   $actions['twilio_twiml_record'] = $defaults + array(
-    'label' => t('Gather'),
+    'label' => t('Record'),
     'base' => 'twilio_rules_twiml_record',
     'named parameter' => TRUE,
     'parameter' => array(
@@ -695,7 +695,7 @@ function twilio_rules_action_info() {
   );
 
   $actions['twilio_twiml_redirect'] = $defaults + array(
-    'label' => t('Enqueue'),
+    'label' => t('Redirect'),
     'base' => 'twilio_rules_twiml_enqueue',
     'named parameter' => TRUE,
     'parameter' => array(
@@ -756,7 +756,7 @@ function twilio_rules_action_info() {
     ),
   );
 
-  $actions['twilio_twiml_client'] = array(
+  $actions['twilio_twiml_client'] = $defaults + array(
     'label' => t('Client'),
     'base' => 'twilio_rules_twiml_client',
     'parameter' => array(
