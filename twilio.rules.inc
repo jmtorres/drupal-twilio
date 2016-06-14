@@ -301,6 +301,7 @@ function twilio_rules_data_info() {
     ),
     'twilio_twiml_response' => array(
       'label' => t('Twiml Response'),
+      'wrap' => TRUE,
     )
   );
 }
