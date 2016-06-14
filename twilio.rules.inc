@@ -329,7 +329,7 @@ function twilio_rules_event_info() {
       'variables' => array(
         'voice_request' => array(
           'type' => 'twilio_voice_request',
-          'label' => t('Twilio incoming Voice'),
+          'label' => t('Twilio Voice Request'),
         ),
         'twiml_response' => array(
           'type' => 'twilio_twiml_response',
@@ -445,15 +445,18 @@ function twilio_rules_action_info() {
       'voice' => array(
         'type' => 'text',
         'label' => t('Voice'),
+        'optional' => TRUE,
         'options list' => 'twilio_voice_options_list',
       ),
       'loop' => array(
         'type' => 'integer',
         'label' => t('Loop'),
+        'optional' => TRUE,
       ),
       'language' => array(
         'type' => 'text',
         'label' => t('Language'),
+        'optional' => TRUE,
         'options list' => 'twilio_language_options_list',
       ),
       'text' => array(
@@ -474,10 +477,12 @@ function twilio_rules_action_info() {
       'loop' => array(
         'type' => 'integer',
         'label' => t('Loop'),
+        'optional' => TRUE,
       ),
       'digits' => array(
         'type' => 'text',
         'label' => t('Digits'),
+        'optional' => TRUE,
       ),
       'text' => array(
         'type' => 'text',
@@ -501,19 +506,23 @@ function twilio_rules_action_info() {
       'method' => array(
         'type' => 'text',
         'label' => t('Method'),
+        'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
       'timeout' => array(
         'type' => 'integer',
         'label' => t('Timeout'),
+        'optional' => TRUE,
       ),
       'finish_on_key' => array(
         'type' => 'text',
         'label' => t('Finish on Key'),
+        'optional' => TRUE,
       ),
       'num_digits' => array(
         'type' => 'integer',
         'label' => t('Number of Digits'),
+        'optional' => TRUE,
       ),
       'response' => array(
         'type' => 'twilio_twiml_response',
@@ -539,35 +548,43 @@ function twilio_rules_action_info() {
       'method' => array(
         'type' => 'text',
         'label' => t('Method'),
+        'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
       'timeout' => array(
         'type' => 'integer',
         'label' => t('Timeout'),
+        'optional' => TRUE,
       ),
       'finish_on_key' => array(
         'type' => 'text',
         'label' => t('Finish on Key'),
+        'optional' => TRUE,
       ),
       'max_length' => array(
         'type' => 'integer',
         'label' => t('Maximum Length'),
+        'optional' => TRUE,
       ),
       'transcribe' => array(
         'type' => 'boolean',
         'label' => t('Transcribe'),
+        'optional' => TRUE,
       ),
       'transcribe_callback' => array(
         'type' => 'uri',
         'label' => t('Transcribe Callback'),
+        'optional' => TRUE,
       ),
       'play_beep' => array(
         'type' => 'boolean',
         'label' => t('Play Beep'),
+        'optional' => TRUE,
       ),
       'trim' => array(
         'type' => 'boolean',
         'label' => t('Trim'),
+        'optional' => TRUE,
       ),
       'response' => array(
         'type' => 'twilio_twiml_response',
@@ -587,32 +604,39 @@ function twilio_rules_action_info() {
       'method' => array(
         'type' => 'text',
         'label' => t('Method'),
+        'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
       'timeout' => array(
         'type' => 'integer',
         'label' => t('Timeout'),
+        'optional' => TRUE,
       ),
       'hangup_on_star' => array(
         'type' => 'boolean',
         'label' => t('Hangup on Star'),
+        'optional' => TRUE,
       ),
       'time_limit' => array(
         'type' => 'integer',
         'label' => t('Time Limit'),
+        'optional' => TRUE,
       ),
       'caller_id' => array(
         'type' => 'text',
         'label' => t('Caller ID'),
+        'optional' => TRUE,
       ),
       'record' => array(
         'type' => 'text',
         'label' => t('Record'),
+        'optional' => TRUE,
         'options list' => 'twilio_record_options_list',
       ),
       'trim' => array(
         'type' => 'boolean',
         'label' => t('Trim'),
+        'optional' => TRUE,
       ),
       'response' => array(
         'type' => 'twilio_twiml_response',
@@ -643,19 +667,23 @@ function twilio_rules_action_info() {
       'action' => array(
         'type' => 'uri',
         'label' => t('Action'),
+        'optional' => TRUE,
       ),
       'method' => array(
         'type' => 'text',
         'label' => t('Method'),
+        'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
       'timeout' => array(
         'type' => 'integer',
         'label' => t('Timeout'),
+        'optional' => TRUE,
       ),
       'status_callback' => array(
         'type' => 'uri',
         'label' => t('StatusCallback'),
+        'optional' => TRUE,
       ),
       'message' => array(
         'type' => 'text',
@@ -680,20 +708,24 @@ function twilio_rules_action_info() {
       'method' => array(
         'type' => 'text',
         'label' => t('Method'),
+        'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
       'wait_url' => array(
         'type' => 'uri',
         'label' => t('WaitUrl'),
+        'optional' => TRUE,
       ),
       'wait_url_method' => array(
         'type' => 'text',
         'label' => t('WaitUrlMethod'),
+        'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
       'workflow_sid' => array(
         'type' => 'text',
         'label' => t('workflowSid'),
+        'optional' => TRUE,
       ),
       'queue_name' => array(
         'type' => 'text',
@@ -735,6 +767,7 @@ function twilio_rules_action_info() {
       'reason' => array(
         'type' => 'text',
         'label' => t('Reason'),
+        'optional' => TRUE,
         'options list' => 'twilio_reason_options_list',
       ),
       'response' => array(
@@ -779,24 +812,30 @@ function twilio_rules_action_info() {
       'url' => array(
         'type' => 'uri',
         'label' => t('URL'),
+        'optional' => TRUE,
       ),
       'method' => array(
         'type' => 'text',
         'label' => t('Method'),
+        'optional' => TRUE,
+
         'options list' => 'twilio_method_options_list',
       ),
       'status_callback_event' => array(
         'type' => 'list<text>',
         'label' => t('Status Callback Event'),
+        'optional' => TRUE,
         'options list' => 'twilio_status_callback_options_list',
       ),
       'status_callback' => array(
         'type' => 'uri',
         'label' => t('Status Callback'),
+        'optional' => TRUE,
       ),
       'status_callback_method' => array(
         'type' => 'text',
         'label' => t('Status Callback Method'),
+        'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
       'response' => array(
