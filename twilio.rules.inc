@@ -431,7 +431,7 @@ function twilio_rules_action_info() {
         'rule_component' => array(
           'type' => 'text',
           'label' => t('Rule Component'),
-          'options list' => 'rules_scheduler_component_options_list',
+          'options list' => 'twilio_rules_component_options_list',
         ),
       ),
       'provides' => array(

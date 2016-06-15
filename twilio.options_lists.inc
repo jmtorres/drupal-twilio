@@ -118,3 +118,7 @@ function twilio_queue_result_options_list() {
     'system-error' => t('System Error'), //The Twilio system malfunctioned during the enqueue process.
   );
 }
+
+function twilio_rules_component_options_list() {
+  return rules_get_components(TRUE, 'action');
+}
