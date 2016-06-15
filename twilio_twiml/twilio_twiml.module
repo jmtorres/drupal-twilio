@@ -131,7 +131,7 @@ function twilio_twiml_load($twiml_id = FALSE) {
 /**
  * Load TwiML data from the DB.
  *
- * @param array $twiml_ids
+ * @param array|bool $twiml_ids
  *   An array of TwiML machine name to load.
  *
  * @return array
@@ -153,7 +153,6 @@ function twilio_twiml_load_multiple($twiml_ids = FALSE) {
       ->fetchAll();
     return $result;
   }
-  return FALSE;
 }
 
 /**
@@ -175,7 +174,7 @@ function twilio_twiml_display($twiml) {
 /**
  * Create a TwiML entry in the DB.
  *
- * @param array $values
+ * @param array|bool $values
  *   A keyed array containing all the information we need.
  *
  * @return bool

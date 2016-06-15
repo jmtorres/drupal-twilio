@@ -75,15 +75,9 @@ function twilio_requirements($phase) {
   if ($phase == 'runtime') {
     // Ensure translations do not break at install time
     $t = get_t();
+    $library = libraries_detect(TWILIO_LIBRARY);
     $requirements['twilio']['title'] = $t('Twilio library');
-    if (module_exists('libraries') && function_exists('libraries_detect')) {
-      $library = libraries_detect(TWILIO_LIBRARY);
-      $twilio_installed = ($library['installed']) ? TRUE : FALSE;
-    }
-    else {
-      $twilio_installed = FALSE;
-    }
-    if ($twilio_installed) {
+    if (!empty($library['installed'])) {
       $requirements['twilio']['value'] = $t('Installed API version !version', array('!version' => $library['version']));
       $requirements['twilio']['severity'] = REQUIREMENT_OK;
     }
