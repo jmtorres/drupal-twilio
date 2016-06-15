@@ -302,7 +302,17 @@ function twilio_rules_data_info() {
     'twilio_twiml_response' => array(
       'label' => t('Twiml Response'),
       'wrap' => TRUE,
-    )
+    ),
+    'twilio_twiml_dial_response' => array(
+      'label' => t('Twiml Dial Response'),
+      'wrap' => TRUE,
+      'parent' => 'twilio_twiml_response',
+    ),
+    'twilio_twiml_gather_response' => array(
+      'label' => t('Twiml Dial Response'),
+      'wrap' => TRUE,
+      'parent' => 'twilio_twiml_response',
+    ),
   );
 }
 
@@ -531,7 +541,7 @@ function twilio_rules_action_info() {
     ),
     'provides' => array(
       'gather_response' => array(
-        'type' => 'twilio_twiml_response',
+        'type' => 'twilio_twiml_gather_response',
         'label' => t('Gather Response'),
       ),
     ),
@@ -648,7 +658,7 @@ function twilio_rules_action_info() {
     ),
     'provides' => array(
       'dial_response' => array(
-        'type' => 'twilio_twiml_response',
+        'type' => 'twilio_twiml_dial_response',
         'label' => t('Dial Response'),
       )
     ),
@@ -846,8 +856,219 @@ function twilio_rules_action_info() {
         'label' => t('Client ID'),
       ),
       'response' => array(
-        'type' => 'twilio_twiml_response',
-        'label' => t('Twiml Response'),
+        'type' => 'twilio_twiml_dial_response',
+        'label' => t('Twiml Dial Response'),
+      ),
+    ),
+  );
+
+  $actions['twilio_twiml_conference'] = $defaults + array(
+    'label' => t('Conference'),
+    'base' => 'twilio_rules_twiml_conference',
+    'parameter' => array(
+      'muted' => array(
+        'type' => 'boolean',
+        'label' => t('Muted'),
+        'optional' => TRUE,
+      ),
+      'beep' => array(
+        'type' => 'boolean',
+        'label' => t('Beep'),
+        'optional' => TRUE,
+      ),
+      'start_conference_on_enter' => array(
+        'type' => 'boolean',
+        'label' => t('Start Conference On Enter'),
+        'optional' => TRUE,
+      ),
+      'end_conference_on_exit' => array(
+        'type' => 'boolean',
+        'label' => t('End Conference On Exit'),
+        'optional' => TRUE,
+      ),
+      'wait_url' => array(
+        'type' => 'uri',
+        'label' => t('Wait Url'),
+        'optional' => TRUE,
+      ),
+      'wait_method' => array(
+        'type' => 'text',
+        'label' => t('Wait Method'),
+        'optional' => TRUE,
+        'options list' => 'twilio_method_options_list',
+      ),
+      'max_participants' => array(
+        'type' => 'integer',
+        'label' => t('Max Participants'),
+        'optional' => TRUE,
+      ),
+      'record' => array(
+        'type' => 'text',
+        'label' => t('Record'),
+        'optional' => TRUE,
+        'options list' => 'twilio_record_options_list',
+      ),
+      'trim' => array(
+        'type' => 'boolean',
+        'label' => t('Trim'),
+        'optional' => TRUE,
+      ),
+      'status_callback_event' => array(
+        'type' => 'list<text>',
+        'label' => t('Status Callback Event'),
+        'optional' => TRUE,
+        'options list' => 'twilio_status_callback_options_list',
+      ),
+      'status_callback' => array(
+        'type' => 'uri',
+        'label' => t('Status Callback'),
+        'optional' => TRUE,
+      ),
+      'status_callback_method' => array(
+        'type' => 'text',
+        'label' => t('Status Callback Method'),
+        'optional' => TRUE,
+        'options list' => 'twilio_method_options_list',
+      ),
+      'event_callback_url' => array(
+        'type' => 'uri',
+        'label' => t('Event Callback URL'),
+        'optional' => TRUE,
+      ),
+      'conference_name' => array(
+        'type' => 'text',
+        'label' => t('Conference Name'),
+      ),
+      'response' => array(
+        'type' => 'twilio_twiml_dial_response',
+        'label' => t('Twiml Dial Response'),
+      ),
+    ),
+  );
+
+  $actions['twilio_twiml_number'] = $defaults + array(
+    'label' => t('Number'),
+    'base' => 'twilio_rules_twiml_number',
+    'parameter' => array(
+      'send_digits' => array(
+        'type' => 'text',
+        'label' => t('Send Digits'),
+      ),
+      'url' => array(
+        'type' => 'uri',
+        'label' => t('URL'),
+        'optional' => TRUE,
+      ),
+      'method' => array(
+        'type' => 'text',
+        'label' => t('Method'),
+        'optional' => TRUE,
+
+        'options list' => 'twilio_method_options_list',
+      ),
+      'status_callback_event' => array(
+        'type' => 'list<text>',
+        'label' => t('Status Callback Event'),
+        'optional' => TRUE,
+        'options list' => 'twilio_status_callback_options_list',
+      ),
+      'status_callback' => array(
+        'type' => 'uri',
+        'label' => t('Status Callback'),
+        'optional' => TRUE,
+      ),
+      'status_callback_method' => array(
+        'type' => 'text',
+        'label' => t('Status Callback Method'),
+        'optional' => TRUE,
+        'options list' => 'twilio_method_options_list',
+      ),
+      'number' => array(
+        'type' => 'text',
+        'label' => t('Number'),
+      ),
+      'response' => array(
+        'type' => 'twilio_twiml_dial_response',
+        'label' => t('Twiml Dial Response'),
+      ),
+    ),
+  );
+
+  $actions['twilio_twiml_queue'] = $defaults + array(
+    'label' => t('Queue'),
+    'base' => 'twilio_rules_twiml_queue',
+    'parameter' => array(
+      'url' => array(
+        'type' => 'uri',
+        'label' => t('URL'),
+        'optional' => TRUE,
+      ),
+      'method' => array(
+        'type' => 'text',
+        'label' => t('Method'),
+        'optional' => TRUE,
+        'options list' => 'twilio_method_options_list',
+      ),
+      'reservation_sid' => array(
+        'type' => 'text',
+        'label' => t('Reservation SID'),
+        'optional' => TRUE,
+      ),
+      'post_work_activity_sid' => array(
+        'type' => 'text',
+        'label' => t('Post Work Activity SID'),
+        'optional' => TRUE,
+      ),
+      'queue_name' => array(
+        'type' => 'text',
+        'label' => t('Queue Name'),
+      ),
+      'response' => array(
+        'type' => 'twilio_twiml_dial_response',
+        'label' => t('Twiml Dial Response'),
+      ),
+    ),
+  );
+
+  $actions['twilio_twiml_sip'] = $defaults + array(
+    'label' => t('Sip'),
+    'base' => 'twilio_rules_twiml_sip',
+    'parameter' => array(
+      'url' => array(
+        'type' => 'uri',
+        'label' => t('URL'),
+        'optional' => TRUE,
+      ),
+      'method' => array(
+        'type' => 'text',
+        'label' => t('Method'),
+        'optional' => TRUE,
+        'options list' => 'twilio_method_options_list',
+      ),
+      'status_callback_event' => array(
+        'type' => 'list<text>',
+        'label' => t('Status Callback Event'),
+        'optional' => TRUE,
+        'options list' => 'twilio_status_callback_options_list',
+      ),
+      'status_callback' => array(
+        'type' => 'uri',
+        'label' => t('Status Callback'),
+        'optional' => TRUE,
+      ),
+      'status_callback_method' => array(
+        'type' => 'text',
+        'label' => t('Status Callback Method'),
+        'optional' => TRUE,
+        'options list' => 'twilio_method_options_list',
+      ),
+      'address' => array(
+        'type' => 'text',
+        'label' => t('Address'),
+      ),
+      'response' => array(
+        'type' => 'twilio_twiml_dial_response',
+        'label' => t('Twiml Dial Response'),
       ),
     ),
   );
@@ -1063,8 +1284,20 @@ function twilio_rules_twiml_record($parameters) {
     'trim' => $parameters['trim'],
   ));
 }
+
 function twilio_rules_twiml_client($parameters) {
   $parameters['response']->client($parameters['client_id'], array(
+    'url' => $parameters['url'],
+    'method' => $parameters['method'],
+    'statusCallbackEvent' => $parameters['status_callback_event'],
+    'statusCallback' => $parameters['status_callback'],
+    'statusCallbackMethod' => $parameters['status_callback_method'],
+  ));
+}
+
+function twilio_rules_twiml_number($parameters) {
+  $parameters['response']->number($parameters['number'], array(
+    'send_digits' => $parameters['send_digits'],
     'url' => $parameters['url'],
     'method' => $parameters['method'],
     'statusCallbackEvent' => $parameters['status_callback_event'],
