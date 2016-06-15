@@ -841,6 +841,10 @@ function twilio_rules_action_info() {
         'optional' => TRUE,
         'options list' => 'twilio_method_options_list',
       ),
+      'client_id' => array(
+        'type' => 'text',
+        'label' => t('Client ID'),
+      ),
       'response' => array(
         'type' => 'twilio_twiml_response',
         'label' => t('Twiml Response'),
@@ -1002,6 +1006,71 @@ function twilio_rules_action_send_sms_to_all_users($message, $media) {
  */
 function twilio_rules_action_send_sms_to_number($country, $number, $message, $media) {
   twilio_send($number, $message, $country, $media);
+}
+
+function twilio_rules_twiml_say($parameters) {
+  $parameters['response']->say($parameters['text'], array(
+    'voice' => $parameters['voice'],
+    'loop' => $parameters['loop'],
+    'language' => $parameters['language'],
+  ));
+}
+
+function twilio_rules_twiml_play($parameters) {
+  $parameters['response']->play($parameters['text'], array(
+    'loop' => $parameters['loop'],
+    'digits' => $parameters['digits'],
+  ));
+}
+
+function twilio_rules_twiml_dial($parameters) {
+  $dial_response = $parameters['response']->dial(NULL, array(
+    'action' => $parameters['action'],
+    'method' => $parameters['method'],
+    'timeout' => $parameters['timeout'],
+    'hangupOnStar' => $parameters['hangup_on_star'],
+    'timeLimit' => $parameters['time_limit'],
+    'callerId' => $parameters['callerId'],
+    'record' => $parameters['record'],
+    'trim' => $parameters['trim'],
+  ));
+
+  return array('dial_response' => $dial_response);
+}
+
+function twilio_rules_twiml_gather($parameters) {
+  $gather_response = $parameters['response']->gather(array(
+    'action' => $parameters['action'],
+    'method' => $parameters['method'],
+    'timeout' => $parameters['timeout'],
+    'finishOnKey' => $parameters['finish_on_key'],
+    'numDigits' => $parameters['num_digits'],
+  ));
+
+  return array('gather_response' => $gather_response);
+}
+
+function twilio_rules_twiml_record($parameters) {
+  $parameters['response']->record(array(
+    'action' => $parameters['action'],
+    'method' => $parameters['method'],
+    'timeout' => $parameters['timeout'],
+    'finishOnKey' => $parameters['finish_on_key'],
+    'maxLength' => $parameters['max_length'],
+    'transcribe' => $parameters['transcribe'],
+    'transcribeCallback' => $parameters['transcribe_callback'],
+    'playBeep' => $parameters['play_beep'],
+    'trim' => $parameters['trim'],
+  ));
+}
+function twilio_rules_twiml_client($parameters) {
+  $parameters['response']->client($parameters['client_id'], array(
+    'url' => $parameters['url'],
+    'method' => $parameters['method'],
+    'statusCallbackEvent' => $parameters['status_callback_event'],
+    'statusCallback' => $parameters['status_callback'],
+    'statusCallbackMethod' => $parameters['status_callback_method'],
+  ));
 }
 
 /**
