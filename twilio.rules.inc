@@ -99,7 +99,7 @@ function twilio_rules_data_info() {
       ),
     ),
     'twilio_gather_request' => $defaults + array(
-      'label' => t('Twilio Incoming Voice request'),
+      'label' => t('Twilio Gather request'),
       'parent' => 'twilio_voice_request',
       'property info' => array(
         'digits' => array(
@@ -153,7 +153,7 @@ function twilio_rules_data_info() {
       ),
     ),
     'twilio_queue_wait_request' => $defaults + array(
-      'label' => t('Twilio Queue Result request'),
+      'label' => t('Twilio Queue Wait request'),
       'parent' => 'twilio_voice_request',
       'property info' => array(
         'queue_position' => array(
@@ -285,7 +285,7 @@ function twilio_rules_data_info() {
       'parent' => 'twilio_twiml_response',
     ),
     'twilio_twiml_gather_response' => $defaults + array(
-      'label' => t('Twiml Dial Response'),
+      'label' => t('Twiml Gather Response'),
       'parent' => 'twilio_twiml_response',
     ),
   );
