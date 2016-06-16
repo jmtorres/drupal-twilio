@@ -505,6 +505,7 @@ function twilio_voice_incoming($voice_request) {
     }
     return $response;
   }
+  return 'blah';
 }
 
 function twilio_voice_callback($component) {
