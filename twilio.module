@@ -139,7 +139,7 @@ function twilio_libraries_info() {
     'vendor url' => 'http://www.twilio.com',
     'download url' => 'https://github.com/twilio/twilio-php/tarball/latest',
     'path' => 'Services',
-    'version' => '2010-04-01',
+    'version' => TWILIO_API_VERSION,
     'files' => array(
       'php' => array(
         'Twilio.php',
@@ -541,23 +541,29 @@ function twilio_voice_callback($component, $request_callback, $return_response =
     if ($component->status && function_exists($request_callback)) {
       dpm(get_defined_vars());
       $voice_request = $request_callback();
-      if($return_response) {
-        dpm(get_defined_vars());
-        $response = new Services_Twilio_Twiml;
-        rules_invoke_component($component->name, array(
-          'voice_request' => $voice_request,
-          'twiml_response' => $response,
-        ));
-        dpm(get_defined_vars());
-        return $response;
+      try {
+        if ($return_response) {
+          dpm(get_defined_vars());
+          $response = new Services_Twilio_Twiml;
+          rules_invoke_component($component->name, array(
+            'voice_request' => $voice_request,
+            'twiml_response' => $response,
+          ));
+          dpm(get_defined_vars());
+          return $response;
+        }
+        else {
+          dpm(get_defined_vars());
+          rules_invoke_component($component->name, array(
+            'voice_request' => $voice_request,
+          ));
+          dpm(get_defined_vars());
+          return TRUE;
+        }
       }
-      else {
-        dpm(get_defined_vars());
-        rules_invoke_component($component->name, array(
-          'voice_request' => $voice_request,
-        ));
-        dpm(get_defined_vars());
-        return TRUE;
+      catch(RulesEvaluationException $e){
+        watchdog_exception('Twilio', $e, 'Whoops!');
+        return MENU_ACCESS_DENIED;
       }
     }
   }
