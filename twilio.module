@@ -616,7 +616,8 @@ function twilio_voice_callback($component, $request_callback, $return_response =
       }
     }
   }
-  return NULL;
+  //return NULL;
+  return MENU_ACCESS_DENIED;
 }
 
 /**
