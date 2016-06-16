@@ -77,14 +77,14 @@ function twilio_requirements($phase) {
     $t = get_t();
     $library = libraries_detect(TWILIO_LIBRARY);
     $requirements['twilio']['title'] = $t('Twilio library');
-    if (!empty($library['installed'])) {
-      $requirements['twilio']['value'] = $t('Installed API version !version', array('!version' => $library['version']));
-      $requirements['twilio']['severity'] = REQUIREMENT_OK;
-    }
-    else {
+    if (empty($library['installed'])) {
       $requirements['twilio']['value'] = $t('Not installed');
       $requirements['twilio']['severity'] = REQUIREMENT_ERROR;
       $requirements['twilio']['description'] = $t('Please download the Twilio PHP library from !link.', array('!link' => l('http://www.twilio.com/docs/libraries', 'http://www.twilio.com/docs/libraries')));
+    }
+    else {
+      $requirements['twilio']['value'] = $t('Installed API version !version', array('!version' => $library['version']));
+      $requirements['twilio']['severity'] = REQUIREMENT_OK;
     }
   }
   return $requirements;
