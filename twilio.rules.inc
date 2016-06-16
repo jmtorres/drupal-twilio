@@ -1087,7 +1087,7 @@ function twilio_rules_action_send_sms_to_number($country, $number, $message, $me
 }
 
 function twilio_rules_load_rule_component($parameters) {
-  return array('twilio_component_uri' => 'https://test.com/twilio/voice/' . $parameters['rule_component']);
+  return array('twilio_component_uri' => url('twilio/voice/' . $parameters['rule_component'], array('absolute' => TRUE)));
 }
 
 function twilio_rules_twiml_dial($parameters) {

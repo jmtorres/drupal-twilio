@@ -63,6 +63,51 @@ function twilio_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+  if (module_exists('rules')) {
+    $items['twilio/voice_component/%rules_config'] = array(
+      'page callback' => 'twilio_voice_callback',
+      'page arguments' => array(2),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['twilio/gather_component/%rules_config'] = array(
+      'page callback' => 'twilio_gather_callback',
+      'page arguments' => array(2),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['twilio/record_component/%rules_config'] = array(
+      'page callback' => 'twilio_record_callback',
+      'page arguments' => array(2),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['twilio/queue_result_component/%rules_config'] = array(
+      'page callback' => 'twilio_queue_result_callback',
+      'page arguments' => array(2),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['twilio/queues_wait_component/%rules_config'] = array(
+      'page callback' => 'twilio_queue_wait_callback',
+      'page arguments' => array(2),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['twilio/call_status_component/%rules_config'] = array(
+      'page callback' => 'twilio_call_status_callback',
+      'page arguments' => array(2),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['twilio/dial_call_status_component/%rules_config'] = array(
+      'page callback' => 'twilio_dial_call_status_callback',
+      'page arguments' => array(2),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  }
+
   return $items;
 }
 
@@ -458,6 +503,88 @@ function twilio_voice_incoming($voice_request) {
         'twiml_response' => $response,
       ));
     }
+    return $response;
+  }
+}
+
+function twilio_voice_callback($component) {
+dpm(get_defined_vars());
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    rules_invoke_component($component['name'], array(
+      'voice_request' => twilio_voice_request(),
+      'twiml_response' => $response,
+    ));
+    return $response;
+  }
+}
+
+function twilio_gather_callback($component) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    rules_invoke_component($component['name'], array(
+      'voice_request' => twilio_gather_request(),
+      'twiml_response' => $response,
+    ));
+    return $response;
+  }
+}
+
+function twilio_record_callback($component) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    rules_invoke_component($component['name'], array(
+      'voice_request' => twilio_record_request(),
+      'twiml_response' => $response,
+    ));
+    return $response;
+  }
+}
+
+function twilio_queue_result_callback($component) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    rules_invoke_component($component['name'], array(
+      'voice_request' => twilio_queue_result_request(),
+      'twiml_response' => $response,
+    ));
+    return $response;
+  }
+}
+
+function twilio_queue_wait_callback($component) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    rules_invoke_component($component['name'], array(
+      'voice_request' => twilio_queue_wait_request(),
+      'twiml_response' => $response,
+    ));
+    return $response;
+  }
+}
+
+function twilio_call_status_callback($component) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    // Invoke a hook for the incoming message so other modules can do things.
+    rules_invoke_component($component['name'], array(
+      'voice_request' => twilio_dial_call_status_request(),
+    ));
+  }
+}
+
+function twilio_dial_call_status_callback($component) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    rules_invoke_component($component['name'], array(
+      'voice_request' => twilio_dial_call_status_request(),
+      'twiml_response' => $response,
+    ));
     return $response;
   }
 }
