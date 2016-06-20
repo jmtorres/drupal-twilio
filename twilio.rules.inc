@@ -442,7 +442,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_dial' => $defaults + array(
-      'label' => t('Dial'),
+      'label' => t('Twiml Verb: Dial'),
       'base' => 'twilio_rules_twiml_dial',
       'parameter' => array(
         'action' => array(
@@ -502,7 +502,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_client' => $defaults + array(
-      'label' => t('Client'),
+      'label' => t('Twiml Noun: Client'),
       'base' => 'twilio_rules_twiml_client',
       'parameter' => array(
         'url' => array(
@@ -545,7 +545,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_conference' => $defaults + array(
-      'label' => t('Conference'),
+      'label' => t('Twiml Noun: Conference'),
       'base' => 'twilio_rules_twiml_conference',
       'parameter' => array(
         'muted' => array(
@@ -628,7 +628,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_number' => $defaults + array(
-      'label' => t('Number'),
+      'label' => t('Twiml Noun: Number'),
       'base' => 'twilio_rules_twiml_number',
       'parameter' => array(
         'send_digits' => array(
@@ -675,7 +675,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_queue' => $defaults + array(
-      'label' => t('Queue'),
+      'label' => t('Twiml Noun: Queue'),
       'base' => 'twilio_rules_twiml_queue',
       'parameter' => array(
         'url' => array(
@@ -710,7 +710,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_sip' => $defaults + array(
-      'label' => t('Sip'),
+      'label' => t('Twiml Noun: Sip'),
       'base' => 'twilio_rules_twiml_sip',
       'parameter' => array(
         'url' => array(
@@ -752,7 +752,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_enqueue' => $defaults + array(
-      'label' => t('Enqueue'),
+      'label' => t('Twiml Verb: Enqueue'),
       'base' => 'twilio_rules_twiml_enqueue',
       'parameter' => array(
         'action' => array(
@@ -792,7 +792,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_gather' => $defaults + array(
-      'label' => t('Gather'),
+      'label' => t('Twiml Verb: Gather'),
       'base' => 'twilio_rules_twiml_gather',
       'parameter' => array(
         'action' => array(
@@ -833,7 +833,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_hangup' => $defaults + array(
-      'label' => t('Hangup'),
+      'label' => t('Twiml Verb: Hangup'),
       'base' => 'twilio_rules_twiml_hangup',
       'parameter' => array(
         'response' => array(
@@ -843,7 +843,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_leave' => $defaults + array(
-      'label' => t('Leave'),
+      'label' => t('Twiml Verb: Leave'),
       'base' => 'twilio_rules_twiml_leave',
       'parameter' => array(
         'response' => array(
@@ -853,7 +853,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_pause' => $defaults + array(
-      'label' => t('Pause'),
+      'label' => t('Twiml Verb: Pause'),
       'base' => 'twilio_rules_twiml_pause',
       'parameter' => array(
         'length' => array(
@@ -867,7 +867,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_play' => $defaults + array(
-      'label' => t('Play'),
+      'label' => t('Twiml Verb: Play'),
       'base' => 'twilio_rules_twiml_play',
       'parameter' => array(
         'loop' => array(
@@ -891,7 +891,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_record' => $defaults + array(
-      'label' => t('Record'),
+      'label' => t('Twiml Verb: Record'),
       'base' => 'twilio_rules_twiml_record',
       'parameter' => array(
         'action' => array(
@@ -946,7 +946,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_redirect' => $defaults + array(
-      'label' => t('Redirect'),
+      'label' => t('Twiml Verb: Redirect'),
       'base' => 'twilio_rules_twiml_enqueue',
       'parameter' => array(
         'method' => array(
@@ -965,7 +965,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_reject' => $defaults + array(
-      'label' => t('Reject'),
+      'label' => t('Twiml Verb: Reject'),
       'base' => 'twilio_rules_twiml_reject',
       'parameter' => array(
         'reason' => array(
@@ -981,7 +981,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_say' => $defaults + array(
-      'label' => t('Say'),
+      'label' => t('Twiml Verb: Say'),
       'base' => 'twilio_rules_twiml_say',
       'parameter' => array(
         'voice' => array(
@@ -1012,7 +1012,7 @@ function twilio_rules_action_info() {
       ),
     ),
     'twilio_twiml_sms' => $defaults + array(
-      'label' => t('SMS'),
+      'label' => t('Twiml Verb: SMS'),
       'base' => 'twilio_rules_twiml_sms',
       'parameter' => array(
         'to' => array(
