@@ -343,9 +343,13 @@ function twilio_rules_event_info() {
     'twilio_sms_incoming' => $defaults + array(
       'label' => t('Drupal receives an SMS'),
       'variables' => array(
-        'sms' => array(
+        'message_request' => array(
           'type' => 'sms',
-          'label' => t('Twilio incoming SMS'),
+          'label' => t('Twilio Message Request'),
+        ),
+        'twiml_response' => array(
+          'type' => 'twilio_twiml_response',
+          'label' => t('Twiml Response'),
         ),
       ),
     ),
@@ -488,6 +492,7 @@ function twilio_rules_action_info() {
         'action' => array(
           'type' => 'uri',
           'label' => t('Action'),
+          'description' => t('When the dialed call ends, Twilio will make a GET or POST request to this URL.'),
           'optional' => TRUE,
         ),
         'method' => array(
@@ -1131,7 +1136,7 @@ function twilio_rules_load_rule_component($parameters) {
 }
 
 function twilio_rules_twiml_dial($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'action' => 'action',
     'method' => 'method',
     'timeout' => 'timeout',
@@ -1147,7 +1152,7 @@ function twilio_rules_twiml_dial($parameters) {
 }
 
 function twilio_rules_twiml_client($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'url' => 'url',
     'method' => 'method',
     'statusCallbackEvent' => 'status_callback_event',
@@ -1158,7 +1163,7 @@ function twilio_rules_twiml_client($parameters) {
 }
 
 function twilio_rules_twiml_conference($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'muted' => 'muted',
     'beep' => 'beep',
     'startConferenceOnEnter' => 'start_conference_on_enter',
@@ -1177,7 +1182,7 @@ function twilio_rules_twiml_conference($parameters) {
 }
 
 function twilio_rules_twiml_number($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'sendDigits' => 'send_digits',
     'url' => 'url',
     'method' => 'method',
@@ -1189,7 +1194,7 @@ function twilio_rules_twiml_number($parameters) {
 }
 
 function twilio_rules_twiml_queue($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'url' => 'url',
     'method' => 'method',
     'reservationSid' => 'reservation_sid',
@@ -1199,7 +1204,7 @@ function twilio_rules_twiml_queue($parameters) {
 }
 
 function twilio_rules_twiml_sip($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'url' => 'url',
     'method' => 'method',
     'statusCallbackEvent' => 'status_callback_event',
@@ -1210,7 +1215,7 @@ function twilio_rules_twiml_sip($parameters) {
 }
 
 function twilio_rules_twiml_enqueue($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'action' => 'action',
     'method' => 'method',
     'waitUrl' => 'wait_url',
@@ -1221,7 +1226,7 @@ function twilio_rules_twiml_enqueue($parameters) {
 }
 
 function twilio_rules_twiml_gather($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'action' => 'action',
     'method' => 'method',
     'timeout' => 'timeout',
@@ -1242,14 +1247,14 @@ function twilio_rules_twiml_leave($parameters) {
 }
 
 function twilio_rules_twiml_pause($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'length' => 'length',
   ));
   $parameters['response']->pause($options);
 }
 
 function twilio_rules_twiml_play($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'loop' => 'loop',
     'digits' => 'digits',
   ));
@@ -1257,7 +1262,7 @@ function twilio_rules_twiml_play($parameters) {
 }
 
 function twilio_rules_twiml_record($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'action' => 'action',
     'method' => 'method',
     'timeout' => 'timeout',
@@ -1272,21 +1277,21 @@ function twilio_rules_twiml_record($parameters) {
 }
 
 function twilio_rules_twiml_redirect($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'method' => 'method',
   ));
   $parameters['response']->redirect($parameters['destination'], $options);
 }
 
 function twilio_rules_twiml_reject($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'reason' => 'reason',
   ));
   $parameters['response']->reject($options);
 }
 
 function twilio_rules_twiml_say($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'voice' => 'voice',
     'loop' => 'loop',
     'language' => 'language',
@@ -1295,7 +1300,7 @@ function twilio_rules_twiml_say($parameters) {
 }
 
 function twilio_rules_twiml_sms($parameters) {
-  $options = twilio_map_options($parameters, array(
+  $options = _twilio_map_options($parameters, array(
     'to' => 'to',
     'from' => 'from',
     'action' => 'action',
