@@ -228,13 +228,15 @@ function twilio_call($parameters) {
           'Timeout' => 'timeout',
           'Record' => 'record',
       ));
-      dpm(get_defined_vars());
-      return $client->account->calls->create(
+
+      $response = $client->account->calls->create(
           $parameters['from'],
           $parameters['to'],
           $parameters['url'],
           $options
       );
+      dpm(get_defined_vars());
+      return $response;
     }
     catch(Services_Twilio_RestException $e){
       dpm($e);
