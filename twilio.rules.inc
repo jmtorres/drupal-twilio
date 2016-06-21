@@ -96,6 +96,46 @@ function twilio_rules_data_info() {
           'label' => t('Caller Name'),
           'description' => t('The caller name from CNAM database.'),
         ),
+        'from_city' => array(
+            'type' => 'text',
+            'label' => t('From City'),
+            'description' => t('The city of the caller.'),
+        ),
+        'from_state' => array(
+            'type' => 'text',
+            'label' => t('From State'),
+            'description' => t('The state or province of the caller.'),
+        ),
+        'from_zip' => array(
+            'type' => 'text',
+            'label' => t('From Zip'),
+            'description' => t('The postal code of the caller.'),
+        ),
+        'from_country' => array(
+            'type' => 'text',
+            'label' => t('From Country'),
+            'description' => t('The country of the caller.'),
+        ),
+        'to_city' => array(
+            'type' => 'text',
+            'label' => t('To City'),
+            'description' => t('The city of the called party.'),
+        ),
+        'to_state' => array(
+            'type' => 'text',
+            'label' => t('To State'),
+            'description' => t('The state or province of the called party.'),
+        ),
+        'to_zip' => array(
+            'type' => 'text',
+            'label' => t('To Zip'),
+            'description' => t('The postal code of the called party.'),
+        ),
+        'to_country' => array(
+            'type' => 'text',
+            'label' => t('To Country'),
+            'description' => t('The country of the called party.'),
+        ),
       ),
     ),
     'twilio_gather_request' => $defaults + array(

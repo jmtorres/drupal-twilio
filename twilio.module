@@ -65,31 +65,37 @@ function twilio_menu() {
   );
   if (module_exists('rules')) {
     $rule_component_menu_defaults = array(
-      'page callback' => 'twilio_voice_callback',
+      'page callback' => 'twilio_request_callback',
       'delivery callback' => 'twilio_deliver_twiml_response',
       'access callback' => TRUE,
       'type' => MENU_CALLBACK,
     );
+    $items['twilio/message_component/%rules_config'] = $rule_component_menu_defaults + array(
+      'page arguments' => array('message_callback', 2, 'twilio_message_request', TRUE),
+    );
+    $items['twilio/message_status_component/%rules_config'] = $rule_component_menu_defaults + array(
+      'page arguments' => array('message_callback', 2, 'twilio_message_status_request', TRUE),
+    );
     $items['twilio/voice_component/%rules_config'] = $rule_component_menu_defaults + array(
-      'page arguments' => array(2, 'twilio_voice_request', TRUE),
+      'page arguments' => array('voice_callback', 2, 'twilio_voice_request', TRUE),
     );
     $items['twilio/gather_component/%rules_config'] = $rule_component_menu_defaults + array(
-      'page arguments' => array(2, 'twilio_gather_request', TRUE),
+      'page arguments' => array('voice_callback', 2, 'twilio_gather_request', TRUE),
     );
     $items['twilio/record_component/%rules_config'] = $rule_component_menu_defaults + array(
-      'page arguments' => array(2, 'twilio_record_request', TRUE),
+      'page arguments' => array('voice_callback', 2, 'twilio_record_request', TRUE),
     );
     $items['twilio/queue_result_component/%rules_config'] = $rule_component_menu_defaults + array(
-      'page arguments' => array(2, 'twilio_queue_result_request', TRUE),
+      'page arguments' => array('voice_callback', 2, 'twilio_queue_result_request', TRUE),
     );
     $items['twilio/queues_wait_component/%rules_config'] = $rule_component_menu_defaults + array(
-      'page arguments' => array(2, 'twilio_queue_wait_request', TRUE),
+      'page arguments' => array('voice_callback', 2, 'twilio_queue_wait_request', TRUE),
     );
     $items['twilio/call_status_component/%rules_config'] = $rule_component_menu_defaults + array(
-      'page arguments' => array(2, 'twilio_call_status_request'),
+      'page arguments' => array('voice_callback', 2, 'twilio_call_status_request'),
     );
     $items['twilio/dial_call_status_component/%rules_config'] = $rule_component_menu_defaults + array(
-      'page arguments' => array(2, 'twilio_dial_call_status_request', TRUE),
+      'page arguments' => array('voice_callback', 2, 'twilio_dial_call_status_request', TRUE),
     );
   }
 
@@ -267,9 +273,8 @@ function twilio_command($command = '', $data = array()) {
 
           case 'validate':
             $validator = new Services_Twilio_RequestValidator($auth_token);
-            $type = !empty($data['type']) ? $data['type'] : 'sms';
-            $url = $GLOBALS['base_url'] . '/twilio/' . $type;
             $signature = $_SERVER["HTTP_X_TWILIO_SIGNATURE"];
+            $url = url(request_uri(), array('absolute' => TRUE));
             $post_vars = $_POST;
             if ($validator->validate($signature, $url, $post_vars)) {
               watchdog('Twilio', 'Incoming SMS message validated');
@@ -277,32 +282,6 @@ function twilio_command($command = '', $data = array()) {
             }
             else {
               watchdog('Twilio', 'Incoming SMS could not be validated');
-            }
-          break;
-
-        }
-      break;
-
-      case '2008-08-01':
-        switch ($command) {
-          case 'sendmsg':
-            // Instantiate a new Twilio Rest Client.
-            $client = new TwilioRestClient($account_sid, $auth_token);
-            try {
-              $response = $client->request("/$api_version/Accounts/$account_sid/SMS/Messages", "POST", array(
-                  "To" => '+' . $data['country'] . $data['number'],
-                  "From" => $number,
-                  "Body" => $data['message'],
-              ));
-              if ($response->IsError) {
-                watchdog('Twilio', 'An error occured during the HTTP request: @error', array('@error' => $response->ErrorMessage));
-                return FALSE;
-              }
-              return TRUE;
-            }
-            catch (Exception $e) {
-              watchdog('Twilio', $e, array(), WATCHDOG_ERROR);
-              return FALSE;
             }
           break;
         }
@@ -371,6 +350,43 @@ function twilio_sms_incoming($number, $number_twilio, $message, $media = array()
   }
 }
 
+/**
+ * Callback for incoming voice calls.
+ */
+function twilio_receive_voice() {
+  if (!empty($_REQUEST['From']) && twilio_command('validate', array('type' => 'voice'))) {
+    $number = check_plain(str_replace('+1', '', $_REQUEST['From']));
+    //$number_twilio = !empty($_REQUEST['To']) ? check_plain(str_replace('+', '', $_REQUEST['To'])) : '';
+
+    watchdog('Twilio', 'A voice call from @number was received.', array('@number' => $number));
+
+    $voice_request = twilio_voice_request();
+    print twilio_voice_incoming($voice_request);
+  }
+}
+
+/**
+ * Invokes twilio_voice_incoming hook.
+ *
+ * @param string $voice_request
+ *
+ * @return Services_Twilio_Twiml
+ */
+function twilio_voice_incoming($voice_request) {
+  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
+    $response = new Services_Twilio_Twiml;
+    // Invoke a hook for the incoming message so other modules can do things.
+    module_invoke_all('twilio_voice_incoming', $voice_request, $response);
+    if (module_exists('rules')) {
+      rules_invoke_event('twilio_voice_incoming', array(
+          'voice_request' => $voice_request,
+          'twiml_response' => $response,
+      ));
+    }
+    return $response;
+  }
+}
+
 function twilio_deliver_twiml_response($page_callback_result) {
   // Emit the correct charset HTTP header, but not if the page callback
   // result is NULL, since that likely indicates that it printed something
@@ -411,6 +427,36 @@ function twilio_deliver_twiml_response($page_callback_result) {
 
   // Perform end-of-request tasks.
   drupal_page_footer();
+}
+
+function twilio_message_request() {
+  $message_request = twilio_map_options($_REQUEST, array(
+    'message_sid' => 'MessageSid', //A 34 character unique identifier for the message.
+    'account_sid' => 'AccountSid', //Your Twilio account id.
+    'messaging_service_sid' => 'MessagingServiceSid', //The 34 character id of the Messaging Service associated to the message.
+    'from' => 'From', //The phone number or client identifier of the party that initiated the call.
+    'to' => 'To', //The phone number or client identifier of the called party.
+    'body' => 'Body', //The text body of the message. Up to 1600 characters long.
+    'num_media' => 'NumMedia', //The number of media items associated with your message.
+    'media_content_type' => 'MediaContentType', //The ContentTypes for the Media stored at MediaUrl
+    'media_url' => 'MediaUrl', //A URL referencing the content of the media received in the Message.
+    'from_city' => 'FromCity', //The city of the caller.
+    'from_state' => 'FromState', //The state or province of the caller.
+    'from_zip' => 'FromZip', //The postal code of the caller.
+    'from_country' => 'FromCountry', //The country of the caller.
+    'to_city' => 'ToCity', //The city of the called party.
+    'to_state' => 'ToState', //The state or province of the called party.
+    'to_zip' => 'ToZip', //The postal code of the called party.
+    'to_country' => 'ToCountry', //The country of the called party.
+  ));
+  return $message_request;
+}
+
+function twilio_message_status_request() {
+  $message_status_request = twilio_map_options($_REQUEST, array(
+      'message_status' => 'MessageStatus', //The current status of the message. Either queued, sending, sent, or failed
+  ));
+  return twilio_message_request() + $message_status_request;
 }
 
 function twilio_voice_request() {
@@ -497,77 +543,41 @@ function twilio_dial_call_status_request() {
   return twilio_voice_request() + $dial_call_status_request;
 }
 
-/**
- * Callback for incoming voice calls.
- */
-function twilio_receive_voice() {
-  if (!empty($_REQUEST['From']) && twilio_command('validate', array('type' => 'voice'))) {
-    $number = check_plain(str_replace('+1', '', $_REQUEST['From']));
-    //$number_twilio = !empty($_REQUEST['To']) ? check_plain(str_replace('+', '', $_REQUEST['To'])) : '';
-
-    watchdog('Twilio', 'A voice call from @number was received.', array('@number' => $number));
-
-    $voice_request = twilio_voice_request();
-    print twilio_voice_incoming($voice_request);
-  }
-}
-
-/**
- * Invokes twilio_voice_incoming hook.
- *
- * @param string $voice_request
- *
- * @return Services_Twilio_Twiml
- */
-function twilio_voice_incoming($voice_request) {
-  if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
-    $response = new Services_Twilio_Twiml;
-    // Invoke a hook for the incoming message so other modules can do things.
-    module_invoke_all('twilio_voice_incoming', $voice_request, $response);
-    if (module_exists('rules')) {
-      rules_invoke_event('twilio_voice_incoming', array(
-        'voice_request' => $voice_request,
-        'twiml_response' => $response,
-      ));
-    }
-    return $response;
-  }
-}
-
-function twilio_voice_callback($component, $request_callback, $return_response = FALSE) {
+function twilio_request_callback($callback_type, $component, $request_callback, $return_response = FALSE) {
   if (($library = libraries_load(TWILIO_LIBRARY)) && !empty($library['loaded'])) {
     // Invoke a hook for the incoming message so other modules can do things.
-    dpm(get_defined_vars());
     if ($component->status && function_exists($request_callback)) {
-      dpm(get_defined_vars());
-      $voice_request = $request_callback();
+      $twilio_request = $request_callback();
+      switch($callback_type){
+        case 'voice_callback':
+          $parameters = array(
+              'voice_request' => $twilio_request,
+          );
+          break;
+        case 'message_callback':
+          $parameters = array(
+              'message_request' => $twilio_request,
+          );
+          break;
+        default:
+          return FALSE;
+      }
+
+      $response = TRUE;
+      if ($return_response) {
+        $response = new Services_Twilio_Twiml;
+        $parameters['twiml_response'] = $response;
+      }
       try {
-        if ($return_response) {
-          dpm(get_defined_vars());
-          $response = new Services_Twilio_Twiml;
-          rules_invoke_component($component->name, array(
-            'voice_request' => $voice_request,
-            'twiml_response' => $response,
-          ));
-          dpm(get_defined_vars());
-          return $response;
-        }
-        else {
-          dpm(get_defined_vars());
-          rules_invoke_component($component->name, array(
-            'voice_request' => $voice_request,
-          ));
-          dpm(get_defined_vars());
-          return TRUE;
-        }
+        rules_invoke_component($component->name, $parameters);
       }
       catch(RulesEvaluationException $e){
         watchdog_exception('Twilio', $e, 'Whoops!');
         return MENU_ACCESS_DENIED;
       }
+      return $response;
     }
   }
-  dpm(get_defined_vars());
   //return NULL;
   return MENU_ACCESS_DENIED;
 }
@@ -578,7 +588,7 @@ function twilio_voice_callback($component, $request_callback, $return_response =
  * @return array
  */
 function twilio_token_info() {
-  $info['types']['sms'] = array(
+  /*$info['types']['sms'] = array(
     'name' => t('SMS'),
     'description' => t('Tokens related to an SMS message.'),
   );
@@ -613,7 +623,7 @@ function twilio_token_info() {
     'name' => t("Twilio Number"),
     'description' => t("The Twilio number that received the voice call."),
   );
-  return $info;
+  return $info;*/
 }
 
 /**
@@ -627,7 +637,7 @@ function twilio_token_info() {
  * @return array
  */
 function twilio_tokens($type, $tokens, array $data = array(), array $options = array()) {
-  $replacements = array();
+  /*$replacements = array();
   // SMS tokens.
   if ($type == 'sms' && !empty($data['sms'])) {
     $sms = $data['sms'];
@@ -667,7 +677,7 @@ function twilio_tokens($type, $tokens, array $data = array(), array $options = a
       }
     }
   }
-  return $replacements;
+  return $replacements;*/
 }
 
 /**
