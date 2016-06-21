@@ -468,6 +468,78 @@ function twilio_rules_action_info() {
         ),
       ),
     ),
+    'twilio_create_call' => $defaults + array(
+      'label' => t('Create Call'),
+      'base' => 'twilio_rules_create_call',
+      'parameter' => array(
+        'from' => array(
+          'type' => 'text',
+          'label' => t('From'),
+          'description' => t('The phone number or client identifier to use as the caller id.'),
+        ),
+        'to' => array(
+          'type' => 'text',
+          'label' => t('To'),
+          'description' => t('The phone number, SIP address or client identifier to call.'),
+        ),
+        'url' => array(
+          'type' => 'uri',
+          'label' => t('URL'),
+          'description' => t('The fully qualified URL that should be consulted when the call connects.'),
+        ),
+        //'application_sid',
+        'method' => array(
+          'type' => 'text',
+          'label' => t('Method'),
+          'description' => t('This tells Twilio whether to request the URL via HTTP GET or POST.'),
+          'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
+        ),
+        //'fallback_url',
+        //'fallback_method',
+        'status_callback' => array(
+          'type' => 'uri',
+          'label' => t('Status Callback'),
+          'description' => t('This attribute allows you to specify a URL for Twilio to send webhook requests to on each event specified in the statusCallbackEvent attribute.'),
+          'optional' => TRUE,
+        ),
+        'status_callback_method' => array(
+          'type' => 'text',
+          'label' => t('Status Callback Method'),
+          'description' => t('This attribute allows you to specify which HTTP method Twilio should use when requesting the URL in the statusCallback attribute.'),
+          'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
+        ),
+        'status_callback_event' => array(
+          'type' => 'list<text>',
+          'label' => t('Status Callback Event'),
+          'description' => t('This attribute allows you to specify which events Twilio should webhook on.'),
+          'options list' => 'twilio_status_callback_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
+        ),
+        'send_digits' => array(
+          'type' => 'text',
+          'label' => ('Timeout'),
+          'optional' => TRUE,
+        ),
+        'timeout' => array(
+          'type' => 'integer',
+          'label' => ('Timeout'),
+          'optional' => TRUE,
+        ),
+        'record' => array(
+          'type' => 'boolean',
+          'label' => t('Record'),
+          'optional' => TRUE,
+        ),
+      ),
+    ),
     'twilio_load_rule_component' => $defaults + array(
       'label' => t('Load Twilio Rule Component'),
       'base' => 'twilio_rules_load_rule_component',
@@ -498,40 +570,49 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
+          'description' => t('This tells Twilio whether to request the \'action\' URL via HTTP GET or POST.'),
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
           'default value' => NULL,
           'allow null' => TRUE,
         ),
         'timeout' => array(
           'type' => 'integer',
           'label' => t('Timeout'),
+          'description' => t('This attribute sets the limit in seconds that Twilio waits for the called party to answer the call.'),
           'optional' => TRUE,
         ),
         'hangup_on_star' => array(
           'type' => 'boolean',
           'label' => t('Hangup on Star'),
+          'description' => t('This attribute lets the calling party hang up on the called party by pressing the \'*\' key on his phone.'),
           'optional' => TRUE,
         ),
         'time_limit' => array(
           'type' => 'integer',
           'label' => t('Time Limit'),
+          'description' => t('This attribute sets the maximum duration of the call in seconds.'),
           'optional' => TRUE,
         ),
         'caller_id' => array(
           'type' => 'text',
           'label' => t('Caller ID'),
+          'description' => t('This attribute lets you specify the caller ID that will appear to the called party when Twilio calls.'),
           'optional' => TRUE,
         ),
         'record' => array(
           'type' => 'text',
           'label' => t('Record'),
-          'optional' => TRUE,
+          'description' => t('This attribute lets you record both legs of a call within the associated Dial verb.'),
           'options list' => 'twilio_record_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'trim' => array(
           'type' => 'boolean',
           'label' => t('Trim'),
+          'description' => t('This attribute lets you specify whether to trim leading and trailing silence from your audio files.'),
           'optional' => TRUE,
         ),
         'response' => array(
@@ -553,35 +634,46 @@ function twilio_rules_action_info() {
         'url' => array(
           'type' => 'uri',
           'label' => t('URL'),
+          'description' => t('This attribute allows you to specify a url for a TwiML document that will run on the called party\'s end, after she answers, but before the parties are connected.'),
           'optional' => TRUE,
         ),
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
-
+          'description' => t('This attribute allows you to specify which HTTP method Twilio should use when requesting the URL in the \'url\' attribute.'),
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback_event' => array(
           'type' => 'list<text>',
           'label' => t('Status Callback Event'),
-          'optional' => TRUE,
+          'description' => t('This attribute allows you to specify which events Twilio should webhook on.'),
           'options list' => 'twilio_status_callback_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback' => array(
           'type' => 'uri',
           'label' => t('Status Callback'),
+          'description' => t('This attribute allows you to specify a URL for Twilio to send webhook requests to on each event specified in the statusCallbackEvent attribute.'),
           'optional' => TRUE,
         ),
         'status_callback_method' => array(
           'type' => 'text',
           'label' => t('Status Callback Method'),
-          'optional' => TRUE,
+          'description' => t('This attribute allows you to specify which HTTP method Twilio should use when requesting the URL in the statusCallback attribute.'),
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'client_id' => array(
           'type' => 'text',
           'label' => t('Client ID'),
+          'description' => t('The client identifier currently may only contain alpha-numeric and underscore characters.'),
         ),
         'response' => array(
           'type' => 'twilio_twiml_dial_response',
@@ -596,55 +688,70 @@ function twilio_rules_action_info() {
         'muted' => array(
           'type' => 'boolean',
           'label' => t('Muted'),
+          'description' => t('This attribute lets you specify whether a participant can speak on the conference.'),
           'optional' => TRUE,
         ),
         'beep' => array(
           'type' => 'boolean',
           'label' => t('Beep'),
+          'description' => t('This attribute lets you specify whether a notification beep is played to the conference when a participant joins or leaves the conference.'),
           'optional' => TRUE,
         ),
         'start_conference_on_enter' => array(
           'type' => 'boolean',
           'label' => t('Start Conference On Enter'),
+          'description' => t('This attribute tells a conference to start when this participant joins the conference, if it is not already started.'),
           'optional' => TRUE,
         ),
         'end_conference_on_exit' => array(
           'type' => 'boolean',
           'label' => t('End Conference On Exit'),
+          'description' => t('If a participant has this attribute set to true, then when that participant leaves, the conference ends and all other participants drop out.'),
           'optional' => TRUE,
         ),
         'wait_url' => array(
           'type' => 'uri',
           'label' => t('Wait Url'),
+          'description' => t('This attribute lets you specify a URL for music that plays before the conference has started.'),
           'optional' => TRUE,
         ),
         'wait_method' => array(
           'type' => 'text',
           'label' => t('Wait Method'),
-          'optional' => TRUE,
+          'description' => t('This attribute indicates which HTTP method to use when requesting \'waitUrl\'.'),
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'max_participants' => array(
           'type' => 'integer',
           'label' => t('Max Participants'),
+          'description' => t('This attribute indicates the maximum number of participants you want to allow within a named conference room.'),
           'optional' => TRUE,
         ),
         'record' => array(
           'type' => 'text',
           'label' => t('Record'),
-          'optional' => TRUE,
+          'description' => t('This attribute lets you record an entire conference.'),
           'options list' => 'twilio_record_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'trim' => array(
           'type' => 'boolean',
           'label' => t('Trim'),
+          'description' => t('This attribute lets you specify whether to trim leading and trailing silence from your audio files.'),
           'optional' => TRUE,
         ),
         'status_callback_event' => array(
           'type' => 'list<text>',
           'label' => t('Status Callback Event'),
-          'optional' => TRUE,
           'options list' => 'twilio_status_callback_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback' => array(
           'type' => 'uri',
@@ -654,8 +761,10 @@ function twilio_rules_action_info() {
         'status_callback_method' => array(
           'type' => 'text',
           'label' => t('Status Callback Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'event_callback_url' => array(
           'type' => 'uri',
@@ -688,15 +797,18 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
-
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback_event' => array(
           'type' => 'list<text>',
           'label' => t('Status Callback Event'),
-          'optional' => TRUE,
           'options list' => 'twilio_status_callback_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback' => array(
           'type' => 'uri',
@@ -706,8 +818,10 @@ function twilio_rules_action_info() {
         'status_callback_method' => array(
           'type' => 'text',
           'label' => t('Status Callback Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'number' => array(
           'type' => 'text',
@@ -731,8 +845,10 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'reservation_sid' => array(
           'type' => 'text',
@@ -766,14 +882,18 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback_event' => array(
           'type' => 'list<text>',
           'label' => t('Status Callback Event'),
-          'optional' => TRUE,
           'options list' => 'twilio_status_callback_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback' => array(
           'type' => 'uri',
@@ -783,8 +903,10 @@ function twilio_rules_action_info() {
         'status_callback_method' => array(
           'type' => 'text',
           'label' => t('Status Callback Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'address' => array(
           'type' => 'text',
@@ -807,8 +929,10 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'wait_url' => array(
           'type' => 'uri',
@@ -818,8 +942,10 @@ function twilio_rules_action_info() {
         'wait_url_method' => array(
           'type' => 'text',
           'label' => t('WaitUrlMethod'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'workflow_sid' => array(
           'type' => 'text',
@@ -847,8 +973,10 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'timeout' => array(
           'type' => 'integer',
@@ -946,8 +1074,10 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'timeout' => array(
           'type' => 'integer',
@@ -998,6 +1128,9 @@ function twilio_rules_action_info() {
           'type' => 'text',
           'label' => t('Method'),
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'destination' => array(
           'type' => 'uri',
@@ -1016,8 +1149,10 @@ function twilio_rules_action_info() {
         'reason' => array(
           'type' => 'text',
           'label' => t('Reason'),
-          'optional' => TRUE,
           'options list' => 'twilio_reason_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'response' => array(
           'type' => 'twilio_twiml_response',
@@ -1032,8 +1167,10 @@ function twilio_rules_action_info() {
         'voice' => array(
           'type' => 'text',
           'label' => t('Voice'),
-          'optional' => TRUE,
           'options list' => 'twilio_voice_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'loop' => array(
           'type' => 'integer',
@@ -1043,8 +1180,10 @@ function twilio_rules_action_info() {
         'language' => array(
           'type' => 'text',
           'label' => t('Language'),
-          'optional' => TRUE,
           'options list' => 'twilio_language_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'text' => array(
           'type' => 'text',
@@ -1076,12 +1215,14 @@ function twilio_rules_action_info() {
         'method' => array(
           'type' => 'text',
           'label' => t('Method'),
-          'optional' => TRUE,
           'options list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
         ),
         'status_callback' => array(
           'type' => 'uri',
-          'label' => t('StatusCallback'),
+          'label' => t('Status Callback'),
           'optional' => TRUE,
         ),
         'message' => array(
@@ -1129,6 +1270,10 @@ function twilio_rules_action_send_sms_to_all_users($message, $media) {
  */
 function twilio_rules_action_send_sms_to_number($country, $number, $message, $media) {
   twilio_send($number, $message, $country, $media);
+}
+
+function twilio_rules_create_call($parameters) {
+  return twilio_call($parameters);
 }
 
 function twilio_rules_load_rule_component($parameters) {

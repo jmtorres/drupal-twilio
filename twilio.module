@@ -211,6 +211,33 @@ function twilio_send($number, $message, $country = TWILIO_DEFAULT_COUNTRY_CODE, 
   return $response;
 }
 
+function twilio_call($parameters) {
+  if(twilio_load_libraries()) {
+    $twilio_credentials = twilio_get_credentials();
+    $client = new Services_Twilio($twilio_credentials['account_sid'], $twilio_credentials['auth_token']);
+
+    $options = _twilio_map_options($parameters, array(
+      'Method' => 'method',
+      'FallbackUrl' => 'fallback_url',
+      'FallbackMethod' => 'fallback_method',
+      'StatusCallback' => 'status_callback',
+      'StatusCallbackMethod' => 'status_callback_method',
+      'StatusCallbackEvent' => 'status_callback_event',
+      'SendDigits' => 'send_digits',
+      'Timeout' => 'timeout',
+      'Record' => 'record',
+    ));
+
+    return $client->account->calls->create(
+      $parameters['from'],
+      $parameters['to'],
+      $parameters['url'],
+      $options
+    );
+  }
+  return FALSE;
+}
+
 /**
  * Executes a command using the Twilio REST API.
  *
