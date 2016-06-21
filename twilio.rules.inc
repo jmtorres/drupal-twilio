@@ -525,7 +525,7 @@ function twilio_rules_action_info() {
         ),
         'send_digits' => array(
           'type' => 'text',
-          'label' => ('Timeout'),
+          'label' => ('Send Digits'),
           'optional' => TRUE,
         ),
         'timeout' => array(
