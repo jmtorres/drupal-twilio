@@ -812,9 +812,9 @@ function twilio_rules_action_info() {
         ),
       ),
     ),
-    'twilio_send_message' => $defaults + array(
+    'twilio_create_message' => $defaults + array(
       'label' => t('Send Message'),
-      'base' => 'twilio_rules_send_message',
+      'base' => 'twilio_rules_create_message',
       'parameter' => array(
         'to' => array(
           'type' => 'text',
