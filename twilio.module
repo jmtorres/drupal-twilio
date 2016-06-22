@@ -218,23 +218,52 @@ function twilio_call($parameters) {
       $client = new Services_Twilio($twilio_credentials['account_sid'], $twilio_credentials['auth_token']);
 
       $options = _twilio_map_options($parameters, array(
-          'Method' => 'method',
-          'FallbackUrl' => 'fallback_url',
-          'FallbackMethod' => 'fallback_method',
-          'StatusCallback' => 'status_callback',
-          'StatusCallbackMethod' => 'status_callback_method',
-          'StatusCallbackEvent' => 'status_callback_event',
-          'SendDigits' => 'send_digits',
-          'Timeout' => 'timeout',
-          'Record' => 'record',
+        'Method' => 'method',
+        'FallbackUrl' => 'fallback_url',
+        'FallbackMethod' => 'fallback_method',
+        'StatusCallback' => 'status_callback',
+        'StatusCallbackMethod' => 'status_callback_method',
+        'StatusCallbackEvent' => 'status_callback_event',
+        'SendDigits' => 'send_digits',
+        'Timeout' => 'timeout',
+        'Record' => 'record',
       ));
 
       $response = $client->account->calls->create(
-          $parameters['from'],
-          $parameters['to'],
-          $parameters['url'],
-          $options
+        $parameters['from'],
+        $parameters['to'],
+        $parameters['url'],
+        $options
       );
+      dpm(get_defined_vars());
+      return $response;
+    }
+    catch(Services_Twilio_RestException $e){
+      dpm($e);
+      return FALSE;
+    }
+  }
+  return FALSE;
+}
+
+function twilio_message($parameters) {
+  if(twilio_load_libraries()) {
+    $twilio_credentials = twilio_get_credentials();
+    try {
+      $client = new Services_Twilio($twilio_credentials['account_sid'], $twilio_credentials['auth_token']);
+
+      $options = _twilio_map_options($parameters, array(
+        'To' => 'to',
+        'From' => 'from',
+        'MessagingServiceSid' => 'messaging_service_sid',
+        'Body' => 'body',
+        'MediaUrl' => 'media_url',
+        'StatusCallback' => 'status_callback',
+        'ApplicationSid' => 'application_sid',
+        'MaxPrice' => 'max_price',
+      ));
+
+      $response = $client->account->messages->create($options);
       dpm(get_defined_vars());
       return $response;
     }
