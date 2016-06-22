@@ -235,7 +235,7 @@ function twilio_call($parameters) {
         $parameters['url'],
         $options
       );
-      dpm(get_defined_vars());
+      //dpm(get_defined_vars());
       return $response;
     }
     catch(Services_Twilio_RestException $e){
@@ -264,7 +264,7 @@ function twilio_message($parameters) {
       ));
 
       $response = $client->account->messages->create($options);
-      dpm(get_defined_vars());
+      //dpm(get_defined_vars());
       return $response;
     }
     catch(Services_Twilio_RestException $e){

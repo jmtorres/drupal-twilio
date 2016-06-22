@@ -1616,7 +1616,7 @@ function twilio_rules_create_call($parameters) {
     'from_formatted' => 'from_formatted',
     'caller_name' => 'caller_name',
   ));
-  dpm(get_defined_vars());
+  //dpm(get_defined_vars());
   return array('call_instance' => $call_instance);
 }
 
@@ -1644,7 +1644,7 @@ function twilio_rules_create_message($parameters) {
     'uri' => 'uri',
     'subresource_uri' => 'subresource_uri',
   ));
-  dpm(get_defined_vars());
+  //dpm(get_defined_vars());
   return array('message_instance' => $message_instance);
 }
 
