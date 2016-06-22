@@ -1593,7 +1593,7 @@ function twilio_rules_action_send_sms_to_number($country, $number, $message, $me
 
 function twilio_rules_create_call($parameters) {
   $call = (array) twilio_call($parameters);
-  $call_instance = _twilio_map_options($call, array(
+  /*$call_instance = _twilio_map_options($call, array(
     'Sid' => 'sid',
     'DateCreated' => 'date_created',
     'DateUpdated' => 'date_updated',
@@ -1615,14 +1615,14 @@ function twilio_rules_create_call($parameters) {
     'ToFormatted' => 'to_formatted',
     'FromFormatted' => 'from_formatted',
     'CallerName' => 'caller_name',
-  ));
+  ));*/
   dpm(get_defined_vars());
-  return array('call_instance' => $call_instance);
+  return array('call_instance' => $call);
 }
 
 function twilio_rules_create_message($parameters) {
   $message = (array) twilio_message($parameters);
-  $message_instance = _twilio_map_options($message, array(
+  /*$message_instance = _twilio_map_options($message, array(
     'Sid' => 'sid',
     'DateCreated' => 'date_created',
     'DateUpdated' => 'date_updated',
@@ -1643,9 +1643,9 @@ function twilio_rules_create_message($parameters) {
     'ApiVersion' => 'api_version',
     'Uri' => 'uri',
     'SubresourceUri' => 'subresource_uri',
-  ));
+  ));*/
   dpm(get_defined_vars());
-  return array('message_instance' => $message_instance);
+  return array('message_instance' => $message);
 }
 
 function twilio_rules_load_rule_component($parameters) {
