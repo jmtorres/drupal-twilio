@@ -828,10 +828,20 @@ function twilio_views_api() {
 
 function _twilio_map_options(&$parameters, $option_map) {
   $options = array();
-  foreach($option_map as $key => $value){
-    if(isset($parameters[$value]) && !is_null($parameters[$value])) {
-      $options[$key] = &$parameters[$value];
+  if(is_array($parameters)) {
+    foreach($option_map as $key => $value) {
+      if(isset($parameters[$value]) && !is_null($parameters[$value])) {
+        $options[$key] = &$parameters[$value];
+      }
     }
   }
+  else if(is_object($parameters)) {
+    foreach($option_map as $key => $value) {
+      if(property_exists($parameters, $value) && !is_null($parameters->$value)) {
+        $options[$key] = &$parameters[$value];
+      }
+    }
+  }
+
   return $options;
 }
