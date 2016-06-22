@@ -206,6 +206,26 @@ function twilio_rules_data_info() {
       'label' => t('Friendly Name'),
       'description' => t('A human readable descriptive text for this resource, up to 64 characters long.'),
     ),
+    'From' => array(
+      'type' => 'text',
+      'label' => t('From'),
+      'description' => t('The phone number, SIP address or Client identifier that made this call.'),
+    ),
+    'FromFormatted' => array(
+      'type' => 'text',
+      'label' => t('FromFormatted'),
+      'description' => t('The formatted phone number, SIP address or Client identifier that made this call.'),
+    ),
+    'To' => array(
+      'type' => 'text',
+      'label' => t('To'),
+      'description' => t('The phone number, SIP address or Client identifier that received this call.'),
+    ),
+    'ToFormatted' => array(
+      'type' => 'text',
+      'label' => t('ToFormatted'),
+      'description' => t('The formatted phone number, SIP address or Client identifier that received this call.'),
+    ),
   );
 
   return array(
