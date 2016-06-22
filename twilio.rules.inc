@@ -836,6 +836,7 @@ function twilio_rules_action_info() {
           'type' => 'uri',
           'label' => t('Media Url'),
           'description' => t('The URL of the media you wish to send out with the message. gif , png and jpeg content is currently supported and will be formatted correctly on the recipient\'s device.'),
+          'optional' => TRUE,
         ),
         'status_callback' => array(
           'type' => 'uri',
@@ -848,6 +849,7 @@ function twilio_rules_action_info() {
           'type' => 'decimal',
           'label' => t('Max Price'),
           'description' => t('The total maximum price in US dollars acceptable for the message to be delivered.'),
+          'optional' => TRUE,
         )
       ),
       'provides' => array(
