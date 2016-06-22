@@ -13,6 +13,201 @@ function twilio_rules_data_info() {
     'module' => 'twilio',
     'wrap' => TRUE,
   );
+
+  $resource_properties = array(
+    'Sid' => array(
+      'type' => 'text',
+      'label' => t('SID'),
+      'description' => t('A 34 character string that uniquely identifies this resource.'),
+    ),
+    'AccountSid' => array(
+      'type' => 'text',
+      'label' => t('Account SID'),
+      'description' => t('The unique id of the Account that owns this resource.'),
+    ),
+    'CallSid' => array(
+      'type' => 'text',
+      'label' => t('Call SID'),
+      'description' => t('The unique id for the parent call leg that corresponds to the resource.'),
+    ),
+    'ConferenceSid' => array(
+      'type' => 'text',
+      'label' => t('Conference SID'),
+      'description' => t('A 34 character string that identifies the conference this participant is in.'),
+    ),
+    'MessagingServiceSid' => array(
+      'type' => 'text',
+      'label' => t('Messaging Service SID'),
+      'description' => t('The unique id of the Messaging Service used with the message. The value will be null if a Messaging Service was not used.'),
+    ),
+    'OwnerAccountSid' => array(
+      'type' => 'text',
+      'label' => t('Owner Account SID'),
+      'description' => t('The Sid of the parent account for this account. The OwnerAccountSid of a parent account is its own sid.'),
+    ),
+    'ParentCallSid' => array(
+      'type' => 'text',
+      'label' => t('Parent Call SID'),
+      'description' => t('A 34 character string that uniquely identifies the call that created this leg.'),
+    ),
+    'ParentSid' => array(
+      'type' => 'text',
+      'label' => t('Parent SID'),
+      'description' => t('The uniqe id of the resource that created the media.'),
+    ),
+    'PhoneNumberSid' => array(
+      'type' => 'text',
+      'label' => t('Phone Number SID'),
+      'description' => t('If the call was inbound, this is the Sid of the IncomingPhoneNumber that received the call. If the call was outbound, it is the Sid of the OutgoingCallerId from which the call was placed.'),
+    ),
+    'RecordingSid' => array(
+      'type' => 'text',
+      'label' => t('Recording SID'),
+      'description' => t('The unique id of the Recording this Transcription was made of.'),
+    ),
+    'SmsApplicationSid' => array(
+      'type' => 'text',
+      'label' => t('SMS Application SID'),
+      'description' => t('The 34 character sid of the application Twilio should use to handle SMSs sent to this number. If a SmsApplicationSid is present, Twilio will ignore all of the SMS urls above and use those set on the application.'),
+    ),
+    'TrunkSid' => array(
+      'type' => 'text',
+      'label' => t('Trunk SID'),
+      'description' => t('The 34 character sid of the Trunk Twilio should use to handle phone calls to this number. If a TrunkSid is present, Twilio will ignore all of the voice urls and voice applications above and use those set on the Trunk. Setting a TrunkSid will automatically delete your VoiceApplicationSid and vice versa.'),
+    ),
+    'VoiceApplicationSid' => array(
+      'type' => 'text',
+      'label' => t('Voice Application SID'),
+      'description' => t('The 34 character sid of the application Twilio should use to handle phone calls to this number. If a VoiceApplicationSid is present, Twilio will ignore all of the voice urls above and use those set on the application. Setting a VoiceApplicationSid will automatically delete your TrunkSid and vice versa.'),
+    ),
+    'CallbackMethod' => array(
+      'type' => 'text',
+      'label' => t('Callback Method'),
+      'description' => t('The HTTP method Twilio will use when making a request to the CallbackUrl.'),
+      'options list' => 'twilio_method_options_list',
+    ),
+    'CallbackUrl' => array(
+      'type' => 'uri',
+      'label' => t('Callback Url'),
+      'description' => t('Twilio will make a request to this url when the trigger fires.'),
+    ),
+    'SmsFallbackMethod' => array(
+      'type' => 'text',
+      'label' => t('Sms Fallback Method'),
+      'description' => t('The HTTP method Twilio will use when requesting the SmsFallbackUrl.'),
+      'options list' => 'twilio_method_options_list',
+    ),
+    'SmsFallbackUrl' => array(
+      'type' => 'uri',
+      'label' => t('Sms Fallback Url'),
+      'description' => t('The URL that Twilio will request if an error occurs retrieving or executing the TwiML from SmsUrl.'),
+    ),
+    'StatusCallback' => array(
+      'type' => 'uri',
+      'label' => t('Status Callback'),
+      'description' => t('The URL that Twilio will request to pass status parameters (such as call ended) to your application.'),
+    ),
+    'StatusCallbackMethod' => array(
+      'type' => 'text',
+      'label' => t('Status Callback Method'),
+      'description' => t('The HTTP method Twilio will use to make requests to the StatusCallback URL.'),
+      'options list' => 'twilio_method_options_list',
+    ),
+    'VoiceFallbackMethod' => array(
+      'type' => 'text',
+      'label' => t('Voice Fallback Method'),
+      'description' => t('The HTTP method Twilio will use when requesting the VoiceFallbackUrl.'),
+      'options list' => 'twilio_method_options_list',
+    ),
+    'VoiceFallbackUrl' => array(
+      'type' => 'uri',
+      'label' => t('Voice Fallback Url'),
+      'description' => t('The URL that Twilio will request if an error occurs retrieving or executing the TwiML requested by Url.'),
+    ),
+    'VoiceMethod' => array(
+      'type' => 'text',
+      'label' => t('Voice Method'),
+      'description' => t('The HTTP method Twilio will use when requesting the VoiceUrl.'),
+      'options list' => 'twilio_method_options_list',
+    ),
+    'VoiceUrl' => array(
+      'type' => 'uri',
+      'label' => t('Voice Url'),
+      'description' => t('The URL Twilio will request when a phone number assigned to this application receives a call.'),
+    ),
+    'SmsMethod' => array(
+      'type' => 'text',
+      'label' => t('Sms Method'),
+      'description' => t('The HTTP method Twilio will use when making requests to the SmsUrl.'),
+      'options list' => 'twilio_method_options_list',
+    ),
+    'SmsUrl' => array(
+      'type' => 'uri',
+      'label' => t('Sms Url'),
+      'description' => t('The URL Twilio will request when a phone number assigned to this application receives an incoming SMS message.'),
+    ),
+    'SmsStatusCallback' => array(
+      'type' => 'uri',
+      'label' => t('Sms Status Callback'),
+      'description' => t('The URL that Twilio will POST to when a message is sent via the /SMS/Messages endpoint if you specify the Sid of this application on an outgoing SMS request.'),
+    ),
+    'MessageStatusCallback' => array(
+      'type' => 'uri',
+      'label' => t('Message Status Callback'),
+      'description' => t('Twilio will make a POST request to this URL to pass status parameters (such as sent or failed) to your application if you use the /Messages endpoint to send the message and specify this application\'s Sid as the ApplicationSid on an outgoing SMS request.'),
+    ),
+    'Uri' => array(
+      'type' => 'text',
+      'label' => t('Uri'),
+      'description' => t('The URI for this resource, relative to https://api.twilio.com.'),
+    ),
+    'SubresourceUri' => array(
+      'type' => 'text',
+      'label' => t('Subresource Uri'),
+      'description' => t('The URIs for any subresources associate with this resource, relative to https://api.twilio.com'),
+    ),
+    'SubresourceUris' => array(
+      'type' => 'text',
+      'label' => t('Subresource Uris'),
+      'description' => t('The URIs for any subresources associate with this resource, relative to https://api.twilio.com'),
+    ),
+    'UsageRecordUri' => array(
+      'type' => 'text',
+      'label' => t('Usage Record Uri'),
+      'description' => t('The URI of the UsageRecord this trigger is watching, relative to https://api.twilio.com.'),
+    ),
+    'DateCreated' => array(
+      'type' => 'date',
+      'label' => t('Date Created'),
+      'description' => t('The date that this resource was created.'),
+    ),
+    'DateEnqueued' => array(
+      'type' => 'date',
+      'label' => t('Date Enqueued'),
+      'description' => t('The date that the member was enqueued.'),
+    ),
+    'DateFired' => array(
+      'type' => 'date',
+      'label' => t('Date Fired'),
+      'description' => t('The date the trigger was last fired.'),
+    ),
+    'DateSent' => array(
+      'type' => 'date',
+      'label' => t('Date Sent'),
+      'description' => t('The date that the message was sent. For incoming messages, this is the date that Twilio received the message.'),
+    ),
+    'DateUpdated' => array(
+      'type' => 'date',
+      'label' => t('Date Updated'),
+      'description' => t('The date that this resource was last updated.'),
+    ),
+    'FriendlyName' => array(
+      'type' => 'text',
+      'label' => t('Friendly Name'),
+      'description' => t('A human readable descriptive text for this resource, up to 64 characters long.'),
+    ),
+  );
+
   return array(
     'twilio_sms_request' => $defaults + array(
       'label' => t('Twilio incoming SMS'),
@@ -46,6 +241,57 @@ function twilio_rules_data_info() {
           'setter callback' => 'entity_property_verbatim_set',
         ),
       ),
+    ),
+    'twilio_call_instance' => $defaults + array(
+      'label' => t('Twilio Call Instance'),
+      'property info' => _twilio_map_options($resource_properties, array(
+        'sid' => 'Sid',
+        'date_created' => 'DateCreated',
+        'date_updated' => 'DateUpdated',
+        'account_sid' => 'AccountSid',
+        'uri' => 'Uri',
+        'parent_call_sid' => 'ParentCallSid',
+        'to' => 'To',
+        'from' => 'From',
+        'phone_number_sid' => 'PhoneNumberSid',
+        'status' => 'Status',
+        'start_time' => 'StartTime',
+        'end_time' => 'EndTime',
+        'duration' => 'Duration',
+        'price' => 'Price',
+        'price_unit' => 'PriceUnit',
+        'direction' => 'Direction',
+        'answered_by' => 'AnsweredBy',
+        'forwarded_from' => 'ForwardedFrom',
+        'to_formatted' => 'ToFormatted',
+        'from_formatted' => 'FromFormatted',
+        'caller_name' => 'CallerName',
+      )),
+    ),
+    'twilio_message_instance' => $defaults + array(
+      'label' => t('Twilio Message Instance'),
+      'property info' => _twilio_map_options($resource_properties, array(
+        'sid' => 'Sid',
+        'date_created' => 'DateCreated',
+        'date_updated' => 'DateUpdated',
+        'date_sent' => 'DateSent',
+        'account_sid' => 'AccountSid',
+        'messaging_service_sid' => 'MessagingServiceSid',
+        'from' => 'From',
+        'to' => 'To',
+        'body' => 'Body',
+        'num_media' => 'NumMedia',
+        'num_segments' => 'NumSegments',
+        'status' => 'Status',
+        'error_code' => 'ErrorCode',
+        'error_message' => 'ErrorMessage',
+        'direction' => 'Direction',
+        'price' => 'Price',
+        'price_unit' => 'PriceUnit',
+        'api_version' => 'ApiVersion',
+        'uri' => 'Uri',
+        'subresource_uri' => 'SubresourceUri',
+      )),
     ),
     'twilio_voice_request' => $defaults + array(
       'label' => t('Twilio Incoming Voice request'),
@@ -537,6 +783,57 @@ function twilio_rules_action_info() {
           'type' => 'boolean',
           'label' => t('Record'),
           'optional' => TRUE,
+        ),
+      ),
+      'provides' => array(
+        'call_instance' => array(
+          'type' => 'twilio_call_instance',
+          'label' => t('Call Instance'),
+        ),
+      ),
+    ),
+    'twilio_send_message' => $defaults + array(
+      'label' => t('Send Message'),
+      'base' => 'twilio_rules_send_message',
+      'parameter' => array(
+        'to' => array(
+          'type' => 'text',
+          'label' => t('To'),
+          'description' => t('The destination phone number.'),
+        ),
+        'from' => array(
+          'type' => 'text',
+          'label' => t('From'),
+          'description' => t('A Twilio phone number or alphanumeric sender ID enabled for the type of message you wish to send.'),
+        ),
+        //'messaging_service_sid',
+        'body' => array(
+          'type' => 'text',
+          'label' => t('Body'),
+          'description' => t('The text of the message you want to send, limited to 1600 characters.'),
+        ),
+        'media_url' => array(
+          'type' => 'uri',
+          'label' => t('Media Url'),
+          'description' => t('The URL of the media you wish to send out with the message. gif , png and jpeg content is currently supported and will be formatted correctly on the recipient\'s device.'),
+        ),
+        'status_callback' => array(
+          'type' => 'uri',
+          'label' => t('Status Callback'),
+          'description' => t('This attribute allows you to specify a URL for Twilio to send webhook requests to on each event specified in the statusCallbackEvent attribute.'),
+          'optional' => TRUE,
+        ),
+        //'application_sid',
+        'max_price' => array(
+          'type' => 'decimal',
+          'label' => t('Max Price'),
+          'description' => t('The total maximum price in US dollars acceptable for the message to be delivered.'),
+        )
+      ),
+      'provides' => array(
+        'message_instance' => array(
+          'type' => 'twilio_message_instance',
+          'label' => t('Message Instance'),
         ),
       ),
     ),
