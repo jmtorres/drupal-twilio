@@ -1618,7 +1618,7 @@ function twilio_rules_create_call($parameters) {
 }
 
 function twilio_rules_create_message($parameters) {
-  $message = (array) twilio_call($parameters);
+  $message = (array) twilio_message($parameters);
   $message_instance = _twilio_map_options($message, array(
     'Sid' => 'sid',
     'DateCreated' => 'date_created',
