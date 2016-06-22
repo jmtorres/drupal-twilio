@@ -1593,59 +1593,59 @@ function twilio_rules_action_send_sms_to_number($country, $number, $message, $me
 
 function twilio_rules_create_call($parameters) {
   $call = (array) twilio_call($parameters);
-  /*$call_instance = _twilio_map_options($call, array(
-    'Sid' => 'sid',
-    'DateCreated' => 'date_created',
-    'DateUpdated' => 'date_updated',
-    'AccountSid' => 'account_sid',
-    'Uri' => 'uri',
-    'ParentCallSid' => 'parent_call_sid',
-    'To' => 'to',
-    'From' => 'from',
-    'PhoneNumberSid' => 'phone_number_sid',
-    'Status' => 'status',
-    'StartTime' => 'start_time',
-    'EndTime' => 'end_time',
-    'Duration' => 'duration',
-    'Price' => 'price',
-    'PriceUnit' => 'price_unit',
-    'Direction' => 'direction',
-    'AnsweredBy' => 'answered_by',
-    'ForwardedFrom' => 'forwarded_from',
-    'ToFormatted' => 'to_formatted',
-    'FromFormatted' => 'from_formatted',
-    'CallerName' => 'caller_name',
-  ));*/
+  $call_instance = _twilio_map_options($call, array(
+    'sid' => 'sid',
+    'date_created' => 'date_created',
+    'date_updated' => 'date_updated',
+    'account_sid' => 'account_sid',
+    'uri' => 'uri',
+    'parent_call_sid' => 'parent_call_sid',
+    'to' => 'to',
+    'from' => 'from',
+    'phone_number_sid' => 'phone_number_sid',
+    'status' => 'status',
+    'start_time' => 'start_time',
+    'end_time' => 'end_time',
+    'duration' => 'duration',
+    'price' => 'price',
+    'price_unit' => 'price_unit',
+    'direction' => 'direction',
+    'answered_by' => 'answered_by',
+    'forwarded_from' => 'forwarded_from',
+    'to_formatted' => 'to_formatted',
+    'from_formatted' => 'from_formatted',
+    'caller_name' => 'caller_name',
+  ));
   dpm(get_defined_vars());
-  return array('call_instance' => $call);
+  return array('call_instance' => $call_instance);
 }
 
 function twilio_rules_create_message($parameters) {
   $message = (array) twilio_message($parameters);
-  /*$message_instance = _twilio_map_options($message, array(
-    'Sid' => 'sid',
-    'DateCreated' => 'date_created',
-    'DateUpdated' => 'date_updated',
-    'DateSent' => 'date_sent',
-    'AccountSid' => 'account_sid',
-    'MessagingServiceSid' => 'messaging_service_sid',
-    'From' => 'from',
-    'To' => 'to',
-    'Body' => 'body',
-    'NumMedia' => 'num_media',
-    'NumSegments' => 'num_segments',
-    'Status' => 'status',
-    'ErrorCode' => 'error_code',
-    'ErrorMessage' => 'error_message',
-    'Direction' => 'direction',
-    'Price' => 'price',
-    'PriceUnit' => 'price_unit',
-    'ApiVersion' => 'api_version',
-    'Uri' => 'uri',
-    'SubresourceUri' => 'subresource_uri',
-  ));*/
+  $message_instance = _twilio_map_options($message, array(
+    'sid' => 'sid',
+    'date_created' => 'date_created',
+    'date_updated' => 'date_updated',
+    'date_sent' => 'date_sent',
+    'account_sid' => 'account_sid',
+    'messaging_service_sid' => 'messaging_service_sid',
+    'from' => 'from',
+    'to' => 'to',
+    'body' => 'body',
+    'num_media' => 'num_media',
+    'num_segments' => 'num_segments',
+    'status' => 'status',
+    'error_code' => 'error_code',
+    'error_message' => 'error_message',
+    'direction' => 'direction',
+    'price' => 'price',
+    'price_unit' => 'price_unit',
+    'api_version' => 'api_version',
+    'uri' => 'uri',
+    'subresource_uri' => 'subresource_uri',
+  ));
   dpm(get_defined_vars());
-  return array('message_instance' => $message);
+  return array('message_instance' => $message_instance);
 }
 
 function twilio_rules_load_rule_component($parameters) {
