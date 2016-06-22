@@ -838,7 +838,7 @@ function _twilio_map_options(&$parameters, $option_map) {
   else if(is_object($parameters)) {
     foreach($option_map as $key => $value) {
       if(property_exists($parameters, $value) && !is_null($parameters->$value)) {
-        $options[$key] = &$parameters[$value];
+        $options[$key] = &$parameters->$value;
       }
     }
   }
