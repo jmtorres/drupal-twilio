@@ -1593,8 +1593,8 @@ function twilio_rules_action_send_sms_to_number($country, $number, $message, $me
 }
 
 function twilio_rules_create_call($parameters) {
-  $call = /*(array)*/ twilio_call($parameters);
-  $call_instance = _twilio_map_options($call, array(
+  $call_instance = /*(array)*/ twilio_call($parameters);
+  /*$call_instance = _twilio_map_options($call, array(
     'sid' => 'sid',
     'date_created' => 'date_created',
     'date_updated' => 'date_updated',
@@ -1616,7 +1616,7 @@ function twilio_rules_create_call($parameters) {
     'to_formatted' => 'to_formatted',
     'from_formatted' => 'from_formatted',
     'caller_name' => 'caller_name',
-  ));
+  ));*/
   //dpm(get_defined_vars());
   return array('call_instance' => $call_instance);
 }
