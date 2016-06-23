@@ -861,7 +861,7 @@ function twilio_rules_action_info() {
         ),
       ),
     ),
-    'twilio_modify_call' => array(
+    'twilio_modify_call' => $defaults + array(
       'label' => t('Modify Active Call'),
       'base' => 'twilio_rules_modify_call',
       'parameter' => array(
@@ -1689,6 +1689,7 @@ function twilio_rules_create_message($parameters) {
 }
 
 function twilio_rules_modify_call($parameters) {
+dpm(get_defined_vars());
   if ($parameters['call_instance'] instanceof Services_Twilio_Rest_Call) {
     $options = _twilio_map_options($parameters, array(
       'Url' => 'url',
