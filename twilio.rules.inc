@@ -264,6 +264,7 @@ function twilio_rules_data_info() {
     ),
     'twilio_call_instance' => $defaults + array(
       'label' => t('Twilio Call Instance'),
+      'wrap' => TRUE,
       'property info' => _twilio_map_options($resource_properties, array(
         'sid' => 'Sid',
         'date_created' => 'DateCreated',
