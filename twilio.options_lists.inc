@@ -96,6 +96,13 @@ function twilio_dial_call_status_options_list() {
   );
 }
 
+function twilio_update_call_status_options_list() {
+  return array(
+    'completed' => t('Completed'), //The called party answered the call and was connected to the caller.
+    'canceled' => t('Canceled'), //The call was canceled via the REST API before it was answered.
+  );
+}
+
 function twilio_sms_status_options_list() {
   return array(
     'sending' => t('Sending'),

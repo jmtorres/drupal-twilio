@@ -291,6 +291,7 @@ function twilio_rules_data_info() {
     ),
     'twilio_message_instance' => $defaults + array(
       'label' => t('Twilio Message Instance'),
+      'wrap' => TRUE,
       'property info' => _twilio_map_options($resource_properties, array(
         'sid' => 'Sid',
         'date_created' => 'DateCreated',
@@ -857,6 +858,42 @@ function twilio_rules_action_info() {
         'message_instance' => array(
           'type' => 'twilio_message_instance',
           'label' => t('Message Instance'),
+        ),
+      ),
+    ),
+    'twilio_modify_call' => array(
+      'label' => t('Modify Active Call'),
+      'base' => 'twilio_rules_modify_call',
+      'parameter' => array(
+        'url' => array(
+          'type' => 'uri',
+          'label' => t('URL'),
+          'description' => t('A valid URL that returns TwiML. Twilio will immediately redirect the call to the new TwiML.'),
+          'optional' => TRUE,
+        ),
+        'method' => array(
+          'type' => 'text',
+          'label' => t('Method'),
+          'description' => t('The HTTP method Twilio should use when requesting the above URL.'),
+          'option list' => 'twilio_method_options_list',
+          'optional' => TRUE,
+          'default value' => NULL,
+          'allow null' => TRUE,
+        ),
+        'status' => array(
+          'type' => 'text',
+          'label' => t('Status'),
+          'description' => t('Either canceled or completed. Specifying canceled will attempt to hangup calls that are queued or ringing but not affect calls already in progress. Specifying completed will attempt to hang up a call even if it\'s already in progress.'),
+          'option list' => 'twilio_update_call_status_options_list',
+          'optional' => TRUE,
+        ),
+        //'fallback_url',
+        //'fallback_method',
+        //'status_callback',
+        //'status_callback_method',
+        'call_instance' => array(
+          'type' => 'twilio_call_instance',
+          'label' => t('Twilio Call Instance'),
         ),
       ),
     ),
@@ -1622,8 +1659,8 @@ function twilio_rules_create_call($parameters) {
 }
 
 function twilio_rules_create_message($parameters) {
-  $message = /*(array)*/ twilio_message($parameters);
-  $message_instance = _twilio_map_options($message, array(
+  $message_instance = /*(array)*/ twilio_message($parameters);
+  /*$message_instance = _twilio_map_options($message, array(
     'sid' => 'sid',
     'date_created' => 'date_created',
     'date_updated' => 'date_updated',
@@ -1644,9 +1681,24 @@ function twilio_rules_create_message($parameters) {
     'api_version' => 'api_version',
     'uri' => 'uri',
     'subresource_uri' => 'subresource_uri',
-  ));
+  ));*/
   //dpm(get_defined_vars());
   return array('message_instance' => $message_instance);
+}
+
+function twilio_rules_modify_call($parameters) {
+  if ($parameters['call_instance'] instanceof Services_Twilio_Rest_Call) {
+    $options = _twilio_map_options($parameters, array(
+      'Url' => 'url',
+      'Method' => 'method',
+      'Status' => 'status',
+      'FallbackUrl' => 'fallback_url',
+      'FallbackMethod' => 'fallback_method',
+      'StatusCallback' => 'status_callback',
+      'StatusCallbackMethod' => 'status_callback_method',
+    ));
+    $parameters['call_instance']->update($options);
+  }
 }
 
 function twilio_rules_load_rule_component($parameters) {
