@@ -878,7 +878,7 @@ function twilio_rules_action_info() {
           'options list' => 'twilio_method_options_list',
           'optional' => TRUE,
           'default value' => NULL,
-          'allow null' => TRUE,
+          //'allow null' => TRUE,
         ),
         'status' => array(
           'type' => 'text',
@@ -887,7 +887,7 @@ function twilio_rules_action_info() {
           'options list' => 'twilio_update_call_status_options_list',
           'optional' => TRUE,
           'default value' => NULL,
-          'allow null' => TRUE,
+          //'allow null' => TRUE,
         ),
         //'fallback_url',
         //'fallback_method',
